@@ -32,7 +32,7 @@ trap 'rm -rf "$TMP"' EXIT
 
 URL="https://raw.githubusercontent.com/$REPO/main/$BINARY"
 
-curl -fL --progress-bar "$URL" -o "$TMP/$BINARY""
+curl -fL --progress-bar "$URL" -o "$TMP/$BINARY"
 
 mkdir -p "$INSTALL_DIR"
 install -m 755 "$TMP/$BINARY" "$INSTALL_DIR/$APP"
