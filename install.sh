@@ -4,46 +4,38 @@ set -euo pipefail
 
 REPO="DaddyEndity/scan.io"
 APP="scan.io"
+BINARY="innit.sh"
 INSTALL_DIR="$HOME/.local/bin"
-BINARY="scan.io-linux-x64"
 
-echo "[+] Installing scan.io..."
+echo ""
+echo "  scan.io installer"
+echo "  -----------------"
 
-# Check architecture
-ARCH="$(uname -m)"
-
-if [[ "$ARCH" != "x86_64" ]]; then
-    echo "[-] This release currently supports Linux x86_64 only."
+if [[ "$(uname -s)" != "Linux" ]]; then
+    echo "[-] Linux is required."
     exit 1
 fi
 
-# Check dependencies
-for cmd in curl sha256sum; do
-    command -v "$cmd" >/dev/null || {
-        echo "[-] Missing dependency: $cmd"
-        exit 1
-    }
-done
+command -v curl >/dev/null || {
+    echo "[-] curl is required."
+    exit 1
+}
 
-# Create temporary directory
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 
-BASE_URL="https://github.com/$REPO/releases/latest/download"
+URL="https://github.com/$REPO/releases/latest/download"
 
-echo "[+] Downloading application..."
+echo "[+] Downloading $BINARY..."
 
-curl -fL "$BASE_URL/$BINARY" -o "$TMP/$BINARY"
-curl -fL "$BASE_URL/SHA256SUMS" -o "$TMP/SHA256SUMS"
+curl -fL --progress-bar "$URL/$BINARY" -o "$TMP/$BINARY"
 
-# Verify download integrity
-cd "$TMP"
-grep -F "  $BINARY" SHA256SUMS | sha256sum -c -
+echo "[+] Installing..."
 
-# Install
 mkdir -p "$INSTALL_DIR"
-install -m 755 "$BINARY" "$INSTALL_DIR/$APP"
+install -m 755 "$TMP/$BINARY" "$INSTALL_DIR/$APP"
 
-echo "[+] Installation complete!"
-echo "[+] Run your application with: scan.io"
-echo "[!] Ensure $INSTALL_DIR is in your PATH."
+echo ""
+echo "[+] Installation successful!"
+echo "[+] Run using: scan.io"
+echo ""
