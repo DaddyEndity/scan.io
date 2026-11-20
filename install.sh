@@ -37,11 +37,4 @@ curl -fL --progress-bar "$URL" -o "$TMP/$BINARY""
 mkdir -p "$INSTALL_DIR"
 install -m 755 "$TMP/$BINARY" "$INSTALL_DIR/$APP"
 
-echo ""
-echo "[+] Installation complete!"
-echo ""
-echo "[!] SECURITY WARNING"
-echo "Only scan systems you are authorized to test."
-echo "--------------------------------"
-
 "$INSTALL_DIR/$APP"
