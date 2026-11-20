@@ -24,11 +24,11 @@ command -v curl >/dev/null || {
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 
-URL="https://github.com/$REPO/releases/latest/download"
+URL="https://raw.githubusercontent.com/$REPO/main/$BINARY"
 
 echo "[+] Downloading $BINARY..."
 
-curl -fL --progress-bar "$URL/$BINARY" -o "$TMP/$BINARY"
+curl -fL --progress-bar "$URL" -o "$TMP/$BINARY"
 
 echo "[+] Installing..."
 
@@ -36,6 +36,5 @@ mkdir -p "$INSTALL_DIR"
 install -m 755 "$TMP/$BINARY" "$INSTALL_DIR/$APP"
 
 echo ""
-echo "[+] Installation successful!"
-echo "[+] Run using: scan.io"
-echo ""
+echo "[+] scan.io installed!"
+echo "[+] Run with: scan.io"
