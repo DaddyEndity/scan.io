@@ -42,22 +42,24 @@ mkdir -p "$INSTALL_DIR"
 install -m 755 "$TMP/$BINARY" "$INSTALL_DIR/$APP"
 
 echo ""
-echo "--------------------------------"
 echo "[+] Installation complete!"
 echo ""
 echo "[!] SECURITY WARNING"
-echo "You are about to launch scan.io."
 echo "Only scan systems you are authorized to test."
 echo "--------------------------------"
 
 if [[ -r /dev/tty ]]; then
-    read -r -p "Launch scan.io now? [y/N]: " ANSWER </dev/tty
-
-    if [[ "$ANSWER" =~ ^[Yy]$ ]]; then
-        echo "[+] Launching scan.io..."
-        exec "$INSTALL_DIR/$APP"
+    if read -r -p "Launch scan.io now? [y/N]: " ANSWER </dev/tty; then
+        if [[ "$ANSWER" =~ ^[Yy]$ ]]; then
+            echo "[+] Launching scan.io..."
+            "$INSTALL_DIR/$APP"
+        else
+            echo "[+] Installation finished."
+        fi
+    else
+        echo "[+] Installation finished."
     fi
+else
+    echo "[+] No interactive terminal detected."
+    echo "[+] Run manually: $INSTALL_DIR/$APP"
 fi
-
-echo "[+] Installed at: $INSTALL_DIR/$APP"
-echo "[+] Run manually with: scan.io"
