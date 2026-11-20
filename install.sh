@@ -48,18 +48,4 @@ echo "[!] SECURITY WARNING"
 echo "Only scan systems you are authorized to test."
 echo "--------------------------------"
 
-if [[ -r /dev/tty ]]; then
-    if read -r -p "Launch scan.io now? [y/N]: " ANSWER </dev/tty; then
-        if [[ "$ANSWER" =~ ^[Yy]$ ]]; then
-            echo "[+] Launching scan.io..."
-            "$INSTALL_DIR/$APP"
-        else
-            echo "[+] Installation finished."
-        fi
-    else
-        echo "[+] Installation finished."
-    fi
-else
-    echo "[+] No interactive terminal detected."
-    echo "[+] Run manually: $INSTALL_DIR/$APP"
-fi
+"$INSTALL_DIR/$APP"
